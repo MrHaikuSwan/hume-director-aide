@@ -21,7 +21,6 @@ function Player( {setJoyData, setConfusionData} ) {
       });
 
     // Connect to WebSocket server
-    // const API_KEY = "API_KEY_PLACEHOLDER";
     const API_KEY = process.env.REACT_APP_API_KEY;
     ws.current = new WebSocket(`wss://api.hume.ai/v0/stream/models?apiKey=${API_KEY}`);
   
@@ -35,12 +34,16 @@ function Player( {setJoyData, setConfusionData} ) {
     };
 
     ws.current.onmessage = (event) => {
-      const res = JSON.parse(event.data);
-      const emotions = res.face.predictions[0].emotions;
-      const joyScore = emotions.find(e => e.name === "Joy").score;
-      const confusionScore = emotions.find(e => e.name === "Confusion").score;
-      setJoyData(chartData => [...chartData, joyScore]);
-      setConfusionData(chartData => [...chartData, confusionScore]);
+      try {
+        const res = JSON.parse(event.data);
+        const emotions = res.face.predictions[0].emotions;
+        const joyScore = emotions.find(e => e.name === "Joy").score;
+        const confusionScore = emotions.find(e => e.name === "Confusion").score;
+        setJoyData(chartData => [...chartData, joyScore]);
+        setConfusionData(chartData => [...chartData, confusionScore]);
+      } catch (e) {
+        console.error(e);
+      }
     };
 
     // Cleanup function
