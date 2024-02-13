@@ -1,6 +1,8 @@
 # Hume Director Aide
 
-This is a prototype of a tool built to aide directors of performing groups with empathic AI. 
+This is a prototype built to help performing group directors review recordings faster with empathic AI. 
+
+![](mvp_ui.png)
 
 ## Motivation
 
